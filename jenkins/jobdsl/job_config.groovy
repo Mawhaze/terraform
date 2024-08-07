@@ -35,7 +35,7 @@ pipeline {
             }
         }
     }
-    stage('Run Terraform Init and Plan) {
+    stage('Run Terraform Init and Plan') {
         steps {
             withCredentials([
                 usernamePassword(credentialsId: 'sa_terraform_proxmox_creds', usernameVariable: 'PROXMOX_USERNAME', passwordVariable: 'PROXMOX_PASSWORD'),
