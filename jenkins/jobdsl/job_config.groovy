@@ -14,8 +14,8 @@ pipelineJob('terraform/deployments/proxmox/proxmox_ubuntu_2404_template') {
     numToKeep(10) //Only keep the last 10
   }
   parameters {
-    choiceParam('TF_VAR_host_node', ['node01', 'storage'], 'Select the destination node'),
-    choiceParam('TF_VAR_node_size', ['small', 'large'], 'Select the size of the VM'),
+    choiceParam('TF_VAR_host_node', ['node01', 'storage'], 'Select the destination node')
+    choiceParam('TF_VAR_node_size', ['small', 'large'], 'Select the size of the VM')
     stringParam('TF_VAR_vm_name', '', 'Enter the name of the VM')
   }
   definition {
