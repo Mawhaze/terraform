@@ -48,9 +48,9 @@ pipeline {
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
                     -e TF_VAR_host_node=\$TF_VAR_host_node \
                     -e TF_VAR_node_size=\$TF_VAR_node_size -e TF_VAR_vm_name=\$TF_VAR_vm_name \
-                    -v /tmp/terraform:/tmp/terraform \
+                    -v \$(pwd)/tmp:/terraform/tmp \
                     --entrypoint sh mawhaze/terraform:latest \
-                    -c "terraform -chdir=./proxmox init && terraform -chdir=./proxmox plan -out=/tmp/terraform/tfplan"'
+                    -c "terraform -chdir=./proxmox init && terraform -chdir=./proxmox plan -out=/terraform/tmp/tfplan"'
                 )
             }
         }
@@ -68,9 +68,9 @@ pipeline {
                     -e PROXMOX_USERNAME=\$PROXMOX_USERNAME -e PROXMOX_PASSWORD=\$PROXMOX_PASSWORD \
                     -e TF_VAR_host_node=\$TF_VAR_host_node \
                     -e TF_VAR_node_size=\$TF_VAR_node_size -e TF_VAR_vm_name=\$TF_VAR_vm_name \
-                    -v /tmp/terraform:/tmp/terraform \
+                    -v \$(pwd)/tmp:/terraform/tmp \
                     --entrypoint sh mawhaze/terraform:latest \
-                    -c "terraform -chdir=./proxmox apply /tmp/terraform/tfplan"'
+                    -c "terraform -chdir=./proxmox apply /terraform/tmp/tfplan"'
                 )
             }
         }
