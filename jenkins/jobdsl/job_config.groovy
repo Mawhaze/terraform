@@ -49,9 +49,9 @@ pipeline {
                     -e TF_VAR_host_node=\$TF_VAR_host_node \
                     -e TF_VAR_node_size=\$TF_VAR_node_size -e TF_VAR_vm_name=\$TF_VAR_vm_name \
                     --entrypoint sh mawhaze/terraform:latest \
-                    -c "terraform -chdir=./proxmox init && terraform -chdir=./proxmox plan -out=tfplan && \
-                    aws s3 cp tfplan s3://mawhaze-terraform-state/proxmox/tfplan"'
+                    -c "terraform -chdir=./proxmox init && terraform -chdir=./proxmox plan -out=tfplan"'
                 )
+                stash includes: 'tfplan', name: 'terraform-plan'
             }
         }
     }
@@ -62,6 +62,7 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
+                unstash 'terraform-plan'
                 sh(
                     'docker run --rm -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
@@ -70,8 +71,7 @@ pipeline {
                     -e TF_VAR_node_size=\$TF_VAR_node_size -e TF_VAR_vm_name=\$TF_VAR_vm_name \
                     -v \$(pwd)/tmp:/terraform/tmp \
                     --entrypoint sh mawhaze/terraform:latest \
-                    -c "aws s3 cp s3://mawhaze-terraform-state/proxmox/tfplan tfplan && \
-                    terraform -chdir=./proxmox apply tfplan"'
+                    -c "terraform -chfir=./proxmox init && terraform -chdir=./proxmox apply tfplan"'
                 )
             }
         }
