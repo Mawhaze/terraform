@@ -27,4 +27,4 @@ RUN terraform --version
 RUN terraform init
 
 # Set the entrypoint
-ENTRYPOINT ["terraform"]
+ENTRYPOINT ["/bin/bash"]

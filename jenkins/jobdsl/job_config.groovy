@@ -49,9 +49,9 @@ pipeline {
                     -e TF_VAR_host_node=\$TF_VAR_host_node \
                     -e TF_VAR_node_size=\$TF_VAR_node_size -e TF_VAR_vm_name=\$TF_VAR_vm_name \
                     --entrypoint sh mawhaze/terraform:latest \
-                    -c "terraform -chdir=./proxmox init && terraform -chdir=./proxmox plan -out=tfplan"'
+                    -c "terraform -chdir=./proxmox init && terraform -chdir=./proxmox plan -out=./proxmox/tfplan"'
                 )
-                stash includes: 'tfplan', name: 'terraform-plan'
+                stash includes: 'proxmox/tfplan', name: 'terraform-plan'
             }
         }
     }
