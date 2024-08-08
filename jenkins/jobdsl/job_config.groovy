@@ -43,7 +43,7 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
                 sh(
-                    'docker run -it --rm -e AWS_DEFAULT_REGION=us-west-2 \
+                    'docker run --rm -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e PROXMOX_USERNAME=\$PROXMOX_USERNAME -e PROXMOX_PASSWORD=\$PROXMOX_PASSWORD \
                     -e TF_VAR_host_node=\$TF_VAR_host_node \
@@ -62,7 +62,7 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
                 sh(
-                    'docker run -it --rm -e AWS_DEFAULT_REGION=us-west-2 \
+                    'docker run --rm -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e PROXMOX_USERNAME=\$PROXMOX_USERNAME -e PROXMOX_PASSWORD=\$PROXMOX_PASSWORD \
                     -e TF_VAR_host_node=\$TF_VAR_host_node \
