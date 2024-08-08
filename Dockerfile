@@ -5,7 +5,7 @@ USER root
 # Install updates and packages
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache vim
+    apk add --no-cache aws-cli vim 
 
 # Create the Terraform user
 RUN adduser -D -u 1000 sa-terraform
