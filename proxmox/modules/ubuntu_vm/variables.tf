@@ -50,7 +50,7 @@ variable "template_vm_name" {
 }
 
 locals {
-  dynamic_tags = "bootstrap,${regex("(.*)\\d{2}$", var.vm_name)}"
+  dynamic_tags = "bootstrap,${var.vm_name}"
   dynamic_desc = "${var.description} - ${var.node_size}"
   dynamic_template = "${var.host_node}-ubuntu-2404-template"
 }
