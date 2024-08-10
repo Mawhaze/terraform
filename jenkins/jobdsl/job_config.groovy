@@ -13,11 +13,6 @@ pipelineJob('terraform/deployments/proxmox/proxmox_ubuntu_2404_template') {
   logRotator {
     numToKeep(10) //Only keep the last 10
   }
-  parameters {
-    choiceParam('TF_VAR_host_node', ['node01', 'storage'], 'Select the destination node')
-    choiceParam('TF_VAR_node_size', ['small', 'large'], 'Select the size of the VM')
-    stringParam('TF_VAR_vm_name', '', 'Enter the name of the VM')
-  }
   definition {
     cps {
       // Inline Groovy script for pipeline definition
@@ -66,7 +61,7 @@ pipeline {
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e PROXMOX_USERNAME=\$PROXMOX_USERNAME -e PROXMOX_PASSWORD=\$PROXMOX_PASSWORD \
                     --entrypoint sh mawhaze/terraform:latest \
-                    -c "cd ./proxmox && terraform init && terraform apply tfplan"'
+                    -c "terraform init && terraform apply tfplan"'
                 )
             }
         }
