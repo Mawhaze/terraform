@@ -12,7 +12,7 @@ RUN adduser -D -u 1000 sa-terraform
 
 # Create the Terraform directory
 RUN mkdir -p /terraform && \
-    mkdir /terraform/tmp \
+    mkdir /terraform/tmp &&\
     chown -R sa-terraform:sa-terraform /terraform
 
 # Copy in required files
