@@ -37,15 +37,15 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
-                sh(
-                    'docker run --rm -e AWS_DEFAULT_REGION=us-west-2 \
+                script {
+                    docker.image('mawhaze/terraform:latest').inside('-e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
-                    --entrypoint sh mawhaze/terraform:latest \
-                    -c "cd ./proxmox && terraform init && terraform plan -out=/terraform/tmp/tfplan && \
-                    ls -la /terraform/tmp/tfplan"'
-                )
-                stash includes: 'tmp/tfplan', name: 'terraform-plan'
+                    -v /tmp/job_space/terraform:/terraform/tmp') {
+                        sh 'cd ./proxmox && terraform init && terraform plan -out=/terraform/tmp/tfplan && ls -la /terraform/tmp/tfplan'
+                        stash includes: 'tmp/tfplan', name: 'terraform-plan'
+                    }
+                }
             }
         }
     }
@@ -57,13 +57,13 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
                 unstash 'terraform-plan'
-                sh(
-                    'docker run --rm -e AWS_DEFAULT_REGION=us-west-2 \
+                script {
+                    docker.image('mawhaze/terraform:latest').inside('-e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
-                    --entrypoint sh mawhaze/terraform:latest \
-                    -c "cd ./proxmox && terraform init && terraform apply -auto-approve /terraform/tmp/tfplan"'
-                )
+                    -v /tmp/job_space/terraform:/terraform/tmp') {
+                        sh 'cd ./proxmox && terraform init && terraform apply -auto-approve /terraform/tmp/tfplan'
+                }
             }
         }
     }
