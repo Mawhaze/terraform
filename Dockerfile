@@ -11,8 +11,7 @@ RUN apk update && \
 RUN adduser -D -u 1000 sa-terraform
 
 # Create the Terraform directory
-RUN mkdir -p /terraform && \
-    mkdir /terraform/tmp
+RUN mkdir -p /terraform && 
 
 # Copy in required files
 COPY ./ /terraform
@@ -21,6 +20,7 @@ COPY ./ /terraform
 RUN chown -R sa-terraform:sa-terraform /terraform
 USER sa-terraform
 WORKDIR /terraform
+RUN mkdir /terraform/tmp
 
 # Verify the installation
 RUN terraform --version

@@ -38,11 +38,11 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
                 script {
-                    docker.image('mawhaze/terraform:latest').inside('-e AWS_DEFAULT_REGION=us-west-2 \
+                    docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
                     -v /tmp/job_space/terraform:/terraform/tmp') {
-                        sh 'cd /terraform/proxmox && terraform init && terraform plan -out=/terraform/tmp/tfplan && ls -la /terraform/tmp/tfplan'
+                        sh 'ls -la /terraform && cd /terraform/proxmox && terraform init && terraform plan -out=/terraform/tmp/tfplan && ls -la /terraform/tmp/tfplan'
                         stash includes: 'tmp/tfplan', name: 'terraform-plan'
                     }
                 }
@@ -58,7 +58,7 @@ pipeline {
             ]) {
                 unstash 'terraform-plan'
                 script {
-                    docker.image('mawhaze/terraform:latest').inside('-e AWS_DEFAULT_REGION=us-west-2 \
+                    docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
                     -v /tmp/job_space/terraform:/terraform/tmp') {
