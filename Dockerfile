@@ -5,7 +5,7 @@ USER root
 # Install updates and packages
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache aws-cli vim 
+    apk add --no-cache aws-cli bash vim 
 
 # Create the Terraform user
 RUN adduser -D -u 1000 sa-terraform
@@ -14,7 +14,7 @@ RUN adduser -D -u 1000 sa-terraform
 RUN mkdir -p /terraform && \
     mkdir /terraform/tmp
 
-    # Copy in required files
+# Copy in required files
 COPY ./ /terraform
 
 # Set user and working directory
