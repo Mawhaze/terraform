@@ -41,10 +41,11 @@ pipeline {
                     'docker run --rm -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
+                    -v /tmp/terraform:/terraform/tmp
                     --entrypoint sh mawhaze/terraform:latest \
-                    -c "cd ./proxmox && terraform init && terraform plan -out=terraform/proxmox/tfplan"'
+                    -c "cd ./proxmox && terraform init && terraform plan -out=../tmp/tfplan"'
                 )
-                stash includes: 'proxmox/tfplan', name: 'terraform-plan'
+                stash includes: 'tmp/tfplan', name: 'terraform-plan'
             }
         }
     }
@@ -60,8 +61,9 @@ pipeline {
                     'docker run --rm -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
+                    -v /tmp/terraform:/terraform/tmp
                     --entrypoint sh mawhaze/terraform:latest \
-                    -c "cd ./proxmox && terraform init && terraform apply -auto-approve tfplan"'
+                    -c "cd ./proxmox && terraform init && terraform apply -auto-approve ../tmp/tfplan"'
                 )
             }
         }
