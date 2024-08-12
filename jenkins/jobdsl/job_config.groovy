@@ -63,6 +63,7 @@ pipeline {
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
                     -v /tmp/job_space/terraform:/terraform/tmp') {
                         sh 'cd ./proxmox && terraform init && terraform apply -auto-approve /terraform/tmp/tfplan'
+                    }
                 }
             }
         }
