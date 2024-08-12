@@ -27,4 +27,4 @@ RUN terraform --version
 RUN terraform init
 
 # Set the entrypoint
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
