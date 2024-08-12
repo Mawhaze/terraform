@@ -42,7 +42,7 @@ pipeline {
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
                     -v /tmp/job_space/terraform:/terraform/tmp') {
-                        sh 'cd ./proxmox && terraform init && terraform plan -out=/terraform/tmp/tfplan && ls -la /terraform/tmp/tfplan'
+                        sh 'cd /terraform/proxmox && terraform init && terraform plan -out=/terraform/tmp/tfplan && ls -la /terraform/tmp/tfplan'
                         stash includes: 'tmp/tfplan', name: 'terraform-plan'
                     }
                 }
@@ -62,7 +62,7 @@ pipeline {
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
                     -v /tmp/job_space/terraform:/terraform/tmp') {
-                        sh 'cd ./proxmox && terraform init && terraform apply -auto-approve /terraform/tmp/tfplan'
+                        sh 'cd /terraform/proxmox && terraform init && terraform apply -auto-approve /terraform/tmp/tfplan'
                     }
                 }
             }
