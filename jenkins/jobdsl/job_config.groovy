@@ -30,14 +30,6 @@ pipeline {
             }
         }
     }
-    stage('Prep Terraform temporary directory') {
-        steps {
-            script {
-                sh 'mkdir -p /tmp/job_space/terraform'
-                sh 'chmod 777 /tmp/job_space/terraform'
-            }
-        }
-    }
     stage('Run Terraform Init and Plan') {
         steps {
             withCredentials([
@@ -46,12 +38,16 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
                 script {
+                    sh 'mkdir -p ${WORKSPACE}/tf_output'
                     docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
-                    -v /tmp/job_space/terraform:/terraform/tmp') {
-                        sh 'ls -la /terraform && cd /terraform/proxmox && terraform init && terraform plan -out=/terraform/tmp/tfplan && ls -la /terraform/tmp/tfplan'
-                        stash includes: 'tmp/tfplan', name: 'terraform-plan'
+                    -v ${WORKSPACE}/tf_output:/terraform/tf_output') {
+                        sh 'ls -la /terraform' 
+                        sh 'cd /terraform/proxmox && terraform init'
+                        sh 'terraform plan -out=/terraform/tf_output/tfplan'
+                        sh 'ls -la /terraform/tmp/tfplan'
+                    stash includes: 'tf_output/tfplan', name: 'terraform-plan'
                     }
                 }
             }
