@@ -30,6 +30,14 @@ pipeline {
             }
         }
     }
+    stage('Prep Terraform temporary directory') {
+        steps {
+            script {
+                sh 'mkdir -p /tmp/job_space/terraform'
+                sh 'chmod 777 /tmp/job_space/terraform'
+            }
+        }
+    }
     stage('Run Terraform Init and Plan') {
         steps {
             withCredentials([
