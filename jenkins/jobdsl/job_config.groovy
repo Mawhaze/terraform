@@ -64,12 +64,10 @@ pipeline {
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {
                         sh 'mkdir -p /terraform/tf_output'
-                        dir('/terraform/tf_output') {
-                            unstash 'terraform-plan'
-                        }
-                        dir('/terraform/proxmox') {
-                            sh 'terraform init && terraform apply -auto-approve /terraform/tf_output/tfplan'
-                        }
+                        unstash 'terraform-plan'
+                        sh 'mv tfplan /terraform/tf_output/tfplan'
+                        sh 'ls -la /terraform/tf_output/'
+                        sh 'cd /terraform/proxmox && terraform init && terraform apply -auto-approve /terraform/tf_output/tfplan'
                     }
                 }
             }
