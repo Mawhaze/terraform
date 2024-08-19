@@ -11,6 +11,7 @@ resource "proxmox_vm_qemu" "proxmox_vm" {
   cores = var.instance_config[var.host_node][var.node_size].vm_cores
   scsihw = "virtio-scsi-single"
   ipconfig0 = "ip=dhcp"
+  searchdomain = "mawhaze.dev"
   disks {
     scsi {
       scsi0 {
