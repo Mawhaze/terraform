@@ -23,4 +23,9 @@ resource "proxmox_vm_qemu" "proxmox_vm" {
       }  
     }
   }
+  lifecycle {
+    ignore_changes = [ 
+      tags
+     ]
+  }
 }
