@@ -45,7 +45,7 @@ pipeline {
                         sh 'mkdir -p /terraform/tf_output'
                         sh 'cd /terraform/proxmox && terraform init && terraform plan -out=/terraform/tf_output/tfplan'
                         sh 'ls -la /terraform/tf_output/tfplan'
-                        sh 'cp /terraform/tf_output/tfplan $WORKSPACE/'
+                        sh 'cp /terraform/tf_output/tfplan \$WORKSPACE/'
                         stash includes: 'tfplan', name: 'terraform-plan'
                     }
                 }
