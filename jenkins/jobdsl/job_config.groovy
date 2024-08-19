@@ -38,17 +38,15 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
                 script {
-                    sh 'mkdir -p ${WORKSPACE}/tf_output'
                     docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
-                    -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
-                    -v ${WORKSPACE}/tf_output:/terraform/tf_output') {
-                        sh 'ls -la /terraform' 
-                        sh 'cd /terraform/proxmox && terraform init'
-                        sh 'terraform plan -out=/terraform/tf_output/tfplan'
-                        sh 'ls -la /terraform/tmp/tfplan'
-                    stash includes: 'tf_output/tfplan', name: 'terraform-plan'
-                    }
+                    -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {
+                        sh 'ls -la /terraform'
+                        sh 'mkdir -p /terraform/tf_output'
+                        sh 'cd /terraform/proxmox && terraform init && terraform plan -out=/terraform/tf_output/tfplan'
+                        sh 'ls -la /terraform/tf_output/tfplan'
+                        sh 'cp /terraform/tf_output/tfplan $WORKSPACE/'
+                  stash includes: 'tfplan', name: 'terraform-plan'
                 }
             }
         }
@@ -64,9 +62,14 @@ pipeline {
                 script {
                     docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
-                    -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD \
-                    -v /tmp/job_space/terraform:/terraform/tmp') {
-                        sh 'cd /terraform/proxmox && terraform init && terraform apply -auto-approve /terraform/tmp/tfplan'
+                    -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {'
+                        sh 'mkdir -p /terraform/tf_output'
+                        dir('/terraform/tf_output') {
+                            unstash 'terraform-plan'
+                        }
+                        dir('/terraform/proxmox') {
+                            sh 'terraform init && terraform apply -auto-approve /terraform/tf_output/tfplan'
+                        }
                     }
                 }
             }
