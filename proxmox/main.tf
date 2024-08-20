@@ -21,7 +21,7 @@ module "test_vm01" {
   vm_name = "testvm01"
   proxmox_username = var.proxmox_username
   proxmox_password = var.proxmox_password
-  tags = "test,docker,"
+  tags = "test,docker"
 }
 
 # module "test_vm02" {
