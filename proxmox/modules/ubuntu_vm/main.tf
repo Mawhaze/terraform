@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "proxmox_vm" {
   name = var.vm_name
   target_node = var.host_node
-  tags = var.tags != "" ? var.tags : local.dynamic_tags
+  tags = var.tags + local.dynamic_tags
   desc= var.description != "" ? var.description : local.dynamic_desc
   clone = var.template_vm_name != "" ? var.template_vm_name : local.dynamic_template
   bios = var.bios
