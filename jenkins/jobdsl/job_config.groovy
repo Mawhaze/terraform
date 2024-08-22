@@ -9,7 +9,7 @@ folder('terraform/deployments/proxmox') {
 
 // Define the Terraform build jobs within the terraform/deployments/proxmox folder
 // Keep this alphabetical for easier maintenance
-pipelineJob('terraform/deployments/proxmox/proxmox_ubuntu_2404_template') {
+pipelineJob('terraform/deployments/proxmox/proxmox_inventory') {
   logRotator {
     numToKeep(10) //Only keep the last 10
   }
@@ -71,6 +71,12 @@ pipeline {
                     }
                 }
             }
+        }
+      stage('Trigger Ansible Bootstrap Playbook') {
+          steps {
+              script {
+                  build job: '/ansible/playbooks/bootstrap', wait: true
+          }
         }
     }
   }
