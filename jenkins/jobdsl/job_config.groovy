@@ -76,7 +76,7 @@ pipeline {
     stage('Trigger Ansible Bootstrap Playbook') {
         steps {
             script {
-                build job: '/ansible/playbooks/bootstrap', wait: true
+                build job: '/ansible/playbooks/ubuntu_bootstrap', wait: true
           }
         }
     }
