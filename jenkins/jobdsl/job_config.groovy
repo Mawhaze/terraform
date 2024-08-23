@@ -72,10 +72,11 @@ pipeline {
                 }
             }
         }
-      stage('Trigger Ansible Bootstrap Playbook') {
-          steps {
-              script {
-                  build job: '/ansible/playbooks/bootstrap', wait: true
+    }
+    stage('Trigger Ansible Bootstrap Playbook') {
+        steps {
+            script {
+                build job: '/ansible/playbooks/bootstrap', wait: true
           }
         }
     }
