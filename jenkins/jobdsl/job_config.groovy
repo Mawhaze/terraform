@@ -120,8 +120,17 @@ pipeline {
                 -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                 -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {
                   sh 'cd /terraform/proxmox && terraform init && terraform force-unlock -force $(cat mawhaze-terraform-state/proxmox/terraform.tfstate)'
-                }}}
+                }
+              }
+            }
+        }
+    }
+  }
       """)
+    }
+  }
+}
+
 // Docker build job for Terraform
 pipelineJob('docker/build/terraform') {
   logRotator {
