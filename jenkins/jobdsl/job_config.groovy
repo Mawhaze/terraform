@@ -115,18 +115,17 @@ pipeline {
                 string(credentialsId: 'sa_terraform_aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
                 string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
             ]) {
-              script {
-                docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
-                -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
-                -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {
-                  sh 'cd /terraform/proxmox && terraform init && terraform force-unlock -force $(cat mawhaze-terraform-state/proxmox/terraform.tfstate)'
-                }
+                script {
+                  docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
+                  -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
+                  -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {
+                    sh 'cd /terraform/proxmox && terraform init && terraform force-unlock -force $(cat mawhaze-terraform-state/proxmox/terraform.tfstate)'
+                  }
               }
             }
         }
     }
   }
-}
       """)
     }
   }
