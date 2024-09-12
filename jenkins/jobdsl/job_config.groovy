@@ -3,13 +3,12 @@ folder('terraform/deployments') {
   description('Terraform Jenkins jobs to deploy infrastructure')
 }
 
-folder('terraform/deployments/proxmox') {
-  description('Terraform Jenkins jobs to deploy infrastructure to Proxmox')
+folder('terraform/utility') {
+  description('Terraform Jenkins utility jobs')
 }
-
 // Define the Terraform build jobs within the terraform/deployments/proxmox folder
 // Keep this alphabetical for easier maintenance
-pipelineJob('terraform/deployments/proxmox/proxmox_inventory') {
+pipelineJob('terraform/deployments/proxmox_inventory') {
   logRotator {
     numToKeep(10) //Only keep the last 10
   }
