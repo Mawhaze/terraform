@@ -91,6 +91,9 @@ pipelineJob('terraform/utility/release_stale_lock') {
   logRotator {
     numToKeep(10) //Only keep the last 10
   }
+  parameters {
+    stringParam('TF_STATE_FILE', '', 'Terraform state file ID, provided in the failed deployment job')
+  }
   definition {
     cps {
       // Inline Groovy script for pipeline definition
@@ -119,7 +122,7 @@ pipeline {
                     docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {
-                        sh 'cd /terraform/proxmox && terraform init && terraform force-unlock \$(cat mawhaze-terraform-state/proxmox/terraform.tfstate)'
+                        sh 'cd /terraform/proxmox && terraform init && terraform force-unlock -force \${TF_STATE_FILE}'
                   }
               }
             }
