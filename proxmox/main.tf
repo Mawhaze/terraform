@@ -13,17 +13,17 @@
 #   tags = "exmple,tags"
 # }
 
-module "tailscale01" {
-  source = "./modules/ubuntu_vm"
-  # Variables
-  host_node = "node01"
-  node_size = "small"
-  vm_name = "tailscale01"
-  description = "tailscale subnet router"
-  proxmox_username = var.proxmox_username
-  proxmox_password = var.proxmox_password
-  tags = "tailscale,docker"
-}
+# module "tailscale01" {
+#   source = "./modules/ubuntu_vm"
+#   # Variables
+#   host_node = "node01"
+#   node_size = "small"
+#   vm_name = "tailscale01"
+#   description = "tailscale subnet router"
+#   proxmox_username = var.proxmox_username
+#   proxmox_password = var.proxmox_password
+#   tags = "tailscale,docker"
+# }
 
 module "dockerhost" {
   source = "./modules/ubuntu_vm"
@@ -37,26 +37,26 @@ module "dockerhost" {
   tags = "docker,plex,sonarr,radarr,nextcloud,letsencrypt"
 }
 
-module "testk8s01" {
-  source = "./modules/ubuntu_vm"
-  # Variables
-  host_node = "node01"
-  node_size = "small"
-  vm_name = "testk8s01"
-  description = "temp k8s controller node for testing"
-  proxmox_username = var.proxmox_username
-  proxmox_password = var.proxmox_password
-  tags = "k8s,k8s_controller"
-}
+# module "testk8s01" {
+#   source = "./modules/ubuntu_vm"
+#   # Variables
+#   host_node = "node01"
+#   node_size = "small"
+#   vm_name = "testk8s01"
+#   description = "temp k8s controller node for testing"
+#   proxmox_username = var.proxmox_username
+#   proxmox_password = var.proxmox_password
+#   tags = "k8s,k8s_controller"
+# }
 
-module "testk8s02" {
-  source = "./modules/ubuntu_vm"
-  # Variables
-  host_node = "node01"
-  node_size = "small"
-  vm_name = "testk8s02"
-  description = "temp k8s worker node for testing"
-  proxmox_username = var.proxmox_username
-  proxmox_password = var.proxmox_password
-  tags = "k8s,k8s_worker"
-}
+# module "testk8s02" {
+#   source = "./modules/ubuntu_vm"
+#   # Variables
+#   host_node = "node01"
+#   node_size = "small"
+#   vm_name = "testk8s02"
+#   description = "temp k8s worker node for testing"
+#   proxmox_username = var.proxmox_username
+#   proxmox_password = var.proxmox_password
+#   tags = "k8s,k8s_worker"
+# }
