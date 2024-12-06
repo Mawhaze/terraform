@@ -34,7 +34,7 @@ module "dockerhost" {
   description = "docker host, media server"
   proxmox_username = var.proxmox_username
   proxmox_password = var.proxmox_password
-  tags = "docker,plex,sonarr,radarr,nextcloud,letsencrypt"
+  tags = "docker,media"
 }
 
 # module "testk8s01" {
