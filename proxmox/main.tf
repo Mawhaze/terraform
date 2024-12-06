@@ -25,6 +25,18 @@ module "tailscale01" {
   tags = "tailscale,docker"
 }
 
+module "dockerhost" {
+  source = "./modules/ubuntu_vm"
+  # Variables
+  host_node = "storage"
+  node_size = "large"
+  vm_name = "dockerhost01"
+  description = "docker host, media server"
+  proxmox_username = var.proxmox_username
+  proxmox_password = var.proxmox_password
+  tags = "docker,plex,sonarr,radarr,nextcloud,letsencrypt"
+}
+
 module "testk8s01" {
   source = "./modules/ubuntu_vm"
   # Variables
@@ -48,15 +60,3 @@ module "testk8s02" {
   proxmox_password = var.proxmox_password
   tags = "k8s,k8s_worker"
 }
-
-# module "k8s02" {
-#   source = "./modules/ubuntu_vm"
-#   # Variables
-#   host_node = "node01"
-#   node_size = "large"
-#   vm_name = "k8s02"
-#   description = "k8s worker node"
-#   proxmox_username = var.proxmox_username
-#   proxmox_password = var.proxmox_password
-#   tags = "k8s,k8s_worker"
-# }
