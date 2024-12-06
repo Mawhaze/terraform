@@ -69,7 +69,12 @@ variable "instance_config" {
       vm_cores = number
       vm_disk_size = string
       vm_storage = string
-    })
+    }),
+    media_server = object({
+      vm_memory = number
+      vm_cores = number
+      vm_disk_size = string
+      vm_storage = string
   }))
   default = {
     "node01" = {
