@@ -84,6 +84,12 @@ variable "instance_config" {
         vm_cores = 2
         vm_disk_size = "32G"
         vm_storage = "nvme02"
+      },
+      media_server = {
+        vm_memory = 16384
+        vm_cores = 8
+        vm_disk_size = "128G"
+        vm_storage = "nvme02"
       }
     },
     "storage" = {
@@ -97,6 +103,12 @@ variable "instance_config" {
         vm_memory = 2048
         vm_cores = 2
         vm_disk_size = "32G"
+        vm_storage = "nvme01"
+      },
+      media_server = {
+        vm_memory = 32768
+        vm_cores = 8
+        vm_disk_size = "128G"
         vm_storage = "nvme01"
       }
     }

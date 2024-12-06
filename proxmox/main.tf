@@ -29,7 +29,7 @@ module "dockerhost" {
   source = "./modules/ubuntu_vm"
   # Variables
   host_node = "storage"
-  node_size = "large"
+  node_size = "media_server"
   vm_name = "dockerhost01"
   description = "docker host, media server"
   proxmox_username = var.proxmox_username
