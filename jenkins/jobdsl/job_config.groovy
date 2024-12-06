@@ -135,9 +135,12 @@ pipeline {
   }
 }
 
-pipelineJob('terraform/utility/clean_statefile') {
+pipelineJob('terraform/utility/clean_orphaned_resources') {
   logRotator {
     numToKeep(10) //Only keep the last 10
+  }
+  parameters {
+    stringParam('TF_ORPHAN', '', 'Terraform orphaned resource, ex:module.tailscale01.proxmox_vm_qemu.proxmox_vm')
   }
   definition {
     cps {
@@ -167,7 +170,7 @@ pipeline {
                     docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
                     -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
                     -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {
-                        sh 'cd /terraform/proxmox && terraform init && terraform state rm'
+                        sh 'cd /terraform/proxmox && terraform init && terraform state rm \${TF_ORPHAN}'
                   }
               }
             }
