@@ -135,6 +135,51 @@ pipeline {
   }
 }
 
+pipelineJob('terraform/utility/clean_statefile') {
+  logRotator {
+    numToKeep(10) //Only keep the last 10
+  }
+  definition {
+    cps {
+      // Inline Groovy script for pipeline definition
+      script("""
+pipeline {
+  agent any
+  stages {
+    stage('Sign into DockerHub and Pull Docker Image') {
+        steps {
+            script {
+                docker.withRegistry('https://index.docker.io/v1/', 'dockerhub_credentials') {
+                    // Pull the Docker image from DockerHub before running it
+                    sh "docker pull mawhaze/terraform:latest"
+                }
+            }
+        }
+    }
+    stage('Release a stale lock file') {
+        steps {
+            withCredentials([
+                usernamePassword(credentialsId: 'sa_terraform_proxmox_creds', usernameVariable: 'PROXMOX_USERNAME', passwordVariable: 'PROXMOX_PASSWORD'),
+                string(credentialsId: 'sa_terraform_aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
+                string(credentialsId: 'sa_terraform_aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
+            ]) {
+                script {
+                    docker.image('mawhaze/terraform:latest').inside('--entrypoint="" -e AWS_DEFAULT_REGION=us-west-2 \
+                    -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
+                    -e TF_VAR_proxmox_username=\$PROXMOX_USERNAME -e TF_VAR_proxmox_password=\$PROXMOX_PASSWORD') {
+                        sh 'cd /terraform/proxmox && terraform init && terraform state rm'
+                  }
+              }
+            }
+        }
+    }
+  }
+}
+      """)
+    }
+  }
+}
+
 // Docker build job for Terraform
 pipelineJob('docker/build/terraform') {
   logRotator {
