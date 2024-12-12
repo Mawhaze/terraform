@@ -13,17 +13,17 @@
 #   tags = "exmple,tags"
 # }
 
-# module "tailscale01" {
-#   source = "./modules/ubuntu_vm"
-#   # Variables
-#   host_node = "node01"
-#   node_size = "small"
-#   vm_name = "tailscale01"
-#   description = "tailscale subnet router"
-#   proxmox_username = var.proxmox_username
-#   proxmox_password = var.proxmox_password
-#   tags = "tailscale,docker"
-# }
+module "tailscale01" {
+  source = "./modules/ubuntu_vm"
+  # Variables
+  host_node = "node01"
+  node_size = "small"
+  vm_name = "tailscale01"
+  description = "tailscale subnet router"
+  proxmox_username = var.proxmox_username
+  proxmox_password = var.proxmox_password
+  tags = "tailscale,docker"
+}
 
 module "dockerhost" {
   source = "./modules/ubuntu_vm"
