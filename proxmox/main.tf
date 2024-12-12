@@ -16,7 +16,7 @@
 module "tailscale01" {
   source = "./modules/ubuntu_vm"
   # Variables
-  host_node = "node01"
+  host_node = "storage"
   node_size = "small"
   vm_name = "tailscale01"
   description = "tailscale subnet router"
