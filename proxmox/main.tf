@@ -37,6 +37,19 @@ module "dockerhost" {
   tags = "docker,media"
 }
 
+module "gamehost" {
+  source = "./modules/ubuntu_vm"
+  # Variables
+  host_node = "storage"
+  node_size = "media_server"
+  vm_name = "gamehost01"
+  description = "game host"
+  proxmox_username = var.proxmox_username
+  proxmox_password = var.proxmox_password
+  tags = "docker, game_server"
+  
+}
+
 # module "testk8s01" {
 #   source = "./modules/ubuntu_vm"
 #   # Variables
