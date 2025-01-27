@@ -46,7 +46,7 @@ module "gamehost" {
   description = "game host"
   proxmox_username = var.proxmox_username
   proxmox_password = var.proxmox_password
-  tags = "docker,gameserver"
+  tags = "gameserver,docker"
   
 }
 
