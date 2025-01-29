@@ -65,7 +65,7 @@ module "labk8s01" {
 module "labk8s02" {
   source = "./modules/ubuntu_vm"
   # Variables
-  host_node = "node01"
+  host_node = "storage"
   node_size = "small"
   vm_name = "labk8s02"
   description = "k8s worker node"
