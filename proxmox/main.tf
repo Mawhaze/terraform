@@ -56,20 +56,20 @@ module "labk8s01" {
   host_node = "storage"
   node_size = "small"
   vm_name = "labk8s01"
-  description = "temp k8s controller node for testing"
+  description = "k8s controller node"
   proxmox_username = var.proxmox_username
   proxmox_password = var.proxmox_password
   tags = "k8s,k8s_controller"
 }
 
-# module "testk8s02" {
-#   source = "./modules/ubuntu_vm"
-#   # Variables
-#   host_node = "node01"
-#   node_size = "small"
-#   vm_name = "testk8s02"
-#   description = "temp k8s worker node for testing"
-#   proxmox_username = var.proxmox_username
-#   proxmox_password = var.proxmox_password
-#   tags = "k8s,k8s_worker"
-# }
+module "labk8s02" {
+  source = "./modules/ubuntu_vm"
+  # Variables
+  host_node = "node01"
+  node_size = "small"
+  vm_name = "labk8s02"
+  description = "k8s worker node"
+  proxmox_username = var.proxmox_username
+  proxmox_password = var.proxmox_password
+  tags = "k8s,k8s_worker"
+}
