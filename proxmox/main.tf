@@ -1,4 +1,9 @@
 # Proxmox VM infrastructure
+provider "proxmox" {
+  pm_api_url = var.proxmox_api_url
+  pm_user = var.proxmox_username
+  pm_password = var.proxmox_password
+}
 
 # Required resource example
 # module "example_vm01" {
