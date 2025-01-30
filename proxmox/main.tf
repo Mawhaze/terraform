@@ -50,7 +50,7 @@ module "gamehost" {
   
 }
 
-module "providertest" {
+module "labk8s01" {
   source = "./modules/ubuntu_vm"
   providers = {
     proxmox = proxmox
@@ -58,23 +58,12 @@ module "providertest" {
   # Variables
   host_node = "storage"
   node_size = "small"
-  vm_name = "providertest01"
-  description = "test vm"
+  vm_name = "labk8s01"
+  description = "k8s controller node"
   proxmox_username = var.proxmox_username
   proxmox_password = var.proxmox_password
-  tags = "test"
+  tags = "k8s,k8s_controller"
 }
-# module "labk8s01" {
-#   source = "./modules/ubuntu_vm"
-#   # Variables
-#   host_node = "storage"
-#   node_size = "small"
-#   vm_name = "labk8s01"
-#   description = "k8s controller node"
-#   proxmox_username = var.proxmox_username
-#   proxmox_password = var.proxmox_password
-#   tags = "k8s,k8s_controller"
-# }
 
 # module "labk8s02" {
 #   source = "./modules/ubuntu_vm"
