@@ -106,7 +106,7 @@ variable "instance_config" {
         vm_storage = "nvme01"
       },
       small = {
-        vm_memory = 2048
+        vm_memory = 4096
         vm_cores = 2
         vm_disk_size = "32G"
         vm_storage = "nvme01"
