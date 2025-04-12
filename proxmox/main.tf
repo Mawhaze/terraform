@@ -78,7 +78,7 @@ module "enderbot01" {
   # Variables
   host_node = "storage"
   node_size = "large"
-  vm_name = "ender bot test"
+  vm_name = "enderbot01"
   proxmox_username = var.proxmox_username
   proxmox_password = var.proxmox_password
   tags = "docker,ender"
