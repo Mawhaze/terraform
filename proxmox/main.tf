@@ -69,3 +69,17 @@ module "labk8s02" {
   proxmox_password = var.proxmox_password
   tags = "k8s,k8s_worker"
 }
+
+module "enderbot01" {
+  source = "./modules/ubuntu_vm"
+  providers = {
+    proxmox = proxmox
+  }
+  # Variables
+  host_node = "storage"
+  node_size = "large"
+  vm_name = "ender bot test"
+  proxmox_username = var.proxmox_username
+  proxmox_password = var.proxmox_password
+  tags = "docker,ender"
+}
