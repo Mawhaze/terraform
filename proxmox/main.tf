@@ -78,6 +78,7 @@ module "labk8s03" {
   # Variables
   host_node = "cuda"
   node_size = "gpu_node"
+  vm_name = "labk8s03"
   description = "k8s worker node. gpu passed though"
   proxmox_username = var.proxmox_username
   proxmox_password = var.proxmox_password
