@@ -98,10 +98,16 @@ variable "instance_config" {
         vm_storage = "local-lvm"
       },
       media_server = {
+        vm_memory = 16384
+        vm_cores = 4
+        vm_disk_size = "128G"
+        vm_storage = "local-lvm"
+      }
+      gpu_node = {
         vm_memory = 32768
         vm_cores = 8
         vm_disk_size = "128G"
-        vm_storage = "local-lvm"
+        vm_storage = "local_lvm"
       }
     },
     "storage" = {
@@ -121,6 +127,12 @@ variable "instance_config" {
         vm_memory = 32768
         vm_cores = 8
         vm_disk_size = "128G"
+        vm_storage = "nvme01"
+      }
+      gpu_node = {
+        vm_memory = 8192
+        vm_cores = 4
+        vm_disk_size = "64G"
         vm_storage = "nvme01"
       }
     }
