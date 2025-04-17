@@ -20,7 +20,7 @@ variable "bios" {
 
 variable "host_node" {
   type = string
-  default = "node01"
+  default = "storage"
 }
 
 variable "node_size" {
@@ -70,6 +70,12 @@ variable "instance_config" {
       vm_disk_size = string
       vm_storage = string
     }),
+    gpu_node = object({
+      vm_memory = number
+      vm_cores = number
+      vm_disk_size = string
+      vm_storage = string
+    })
     media_server = object({
       vm_memory = number
       vm_cores = number
@@ -78,24 +84,24 @@ variable "instance_config" {
     })
   }))
   default = {
-    "node01" = {
+    "cuda" = {
       large = {
         vm_memory = 8192
         vm_cores = 4
         vm_disk_size = "64G"
-        vm_storage = "nvme02"
+        vm_storage = "local-lvm"
       },
       small = {
         vm_memory = 4096
         vm_cores = 2
         vm_disk_size = "32G"
-        vm_storage = "nvme02"
+        vm_storage = "local-lvm"
       },
-      media_server = {
-        vm_memory = 16384
+      gpu_node = {
+        vm_memory = 32768
         vm_cores = 8
         vm_disk_size = "128G"
-        vm_storage = "nvme02"
+        vm_storage = "local-lvm"
       }
     },
     "storage" = {

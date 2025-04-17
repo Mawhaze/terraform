@@ -70,6 +70,20 @@ module "labk8s02" {
   tags = "k8s,k8s_worker"
 }
 
+module "labk8s03" {
+  source = "./modules/ubuntu_vm"
+  providers = {
+    proxmox = proxmox
+  }
+  # Variables
+  host_node = "cuda"
+  node_size = "gpu_node"
+  description = "k8s worker node. gpu passed though"
+  proxmox_username = var.proxmox_username
+  proxmox_password = var.proxmox_password
+  tags = "k8s,k8s_worker,gpu_node"
+}
+
 module "enderbot01" {
   source = "./modules/ubuntu_vm"
   providers = {
