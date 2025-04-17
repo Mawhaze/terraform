@@ -107,7 +107,7 @@ variable "instance_config" {
         vm_memory = 32768
         vm_cores = 8
         vm_disk_size = "128G"
-        vm_storage = "local_lvm"
+        vm_storage = "local-lvm"
       }
     },
     "storage" = {
