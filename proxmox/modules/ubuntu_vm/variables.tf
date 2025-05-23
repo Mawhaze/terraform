@@ -104,7 +104,7 @@ variable "instance_config" {
         vm_storage = "local-lvm"
       }
       gpu_node = {
-        vm_memory = 32768
+        vm_memory = 49152
         vm_cores = 8
         vm_disk_size = "128G"
         vm_storage = "local-lvm"
